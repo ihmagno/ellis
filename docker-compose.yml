@@ -1,0 +1,28 @@
+services:
+  # Define o serviço da nossa API
+  api:
+    # Constrói a imagem Docker para este serviço.
+    # O '.' indica que o Docker Compose deve procurar o Dockerfile no diretório atual.
+    build: .
+    container_name: imersao-devops #Nome do container
+    
+    # Mapeia as portas. A porta 8000 da sua máquina (host) será redirecionada
+    # para a porta 8000 dentro do contêiner.
+    ports:
+      - "8000:8000"
+
+    # Monta um volume. O diretório atual ('.') do seu projeto na sua máquina
+    # é espelhado dentro do diretório /app do contêiner.
+    # Isso é essencial para o desenvolvimento, pois qualquer alteração no seu código
+    # local será refletida instantaneamente dentro do contêiner, permitindo o live-reload.
+    volumes:
+      - .:/app
+    
+    
+
+    # O comando que será executado quando o contêiner do serviço 'api' iniciar.
+    # 'uvicorn app:app' inicia o servidor.
+    # '--host 0.0.0.0' faz o servidor escutar em todas as interfaces de rede dentro do contêiner.
+    # '--port 8000' especifica a porta.
+    # '--reload' ativa o recarregamento automático ao detectar mudanças nos arquivos.
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
